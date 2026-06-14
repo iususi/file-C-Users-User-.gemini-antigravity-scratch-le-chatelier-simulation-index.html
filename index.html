@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ElevenReaction — Le Chatelier's Principle Equilibrium Simulator</title>
+  <!-- Outfit Google Font as a substitute for Waldenburg light display, Inter for body and UI -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500&family=Geist+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+  <!-- Navigation Bar (ElevenLabs Style) -->
+  <nav class="nav-bar">
+    <div class="nav-brand">
+      <span class="brand-prefix">Eleven</span><span class="brand-name">Reaction</span>
+    </div>
+    <div class="nav-tagline">Chemical Equilibrium Simulator</div>
+    <div class="nav-actions">
+      <button class="btn btn-white" id="btnResetSimulation">Reset Simulator</button>
+    </div>
+  </nav>
+
+  <main class="dashboard">
+    <!-- Left Column: The Reactor Vessel (Obsidian Glass Cylinder) -->
+    <section class="panel panel-center">
+      <div class="reactor-header">
+        <h2 class="display-title">Reactor Chamber</h2>
+        <div class="reactor-status">
+          <span class="status-dot"></span>
+          <span id="lblReactionState">Equilibration active</span>
+        </div>
+      </div>
+      
+      <div class="reactor-viewport">
+        <!-- Canvas for 2D Physics particles & piston -->
+        <canvas id="reactorCanvas" width="460" height="500"></canvas>
+        <div class="piston-handle-hint">Drag Piston Cap directly or use the controls to adjust volume</div>
+      </div>
+    </section>
+
+    <!-- Right Column: Telemetry & Controls Dashboard -->
+    <section class="panel panel-right card">
+      <div class="panel-header">
+        <span class="badge">Telemetry</span>
+        <h2 class="section-title">System Variables</h2>
+      </div>
+
+      <!-- Live Readouts -->
+      <div class="telemetry-grid">
+        <div class="telemetry-item">
+          <span class="telemetry-label">Chamber Volume</span>
+          <span class="telemetry-value" id="valVolume">5.0 L</span>
+        </div>
+        <div class="telemetry-item">
+          <span class="telemetry-label">Total Pressure</span>
+          <span class="telemetry-value" id="valPressure">1.00 atm</span>
+        </div>
+        <div class="telemetry-item">
+          <span class="telemetry-label">NO₂ (Red-Brown)</span>
+          <span class="telemetry-value text-no2" id="valNo2Count">12 particles</span>
+        </div>
+        <div class="telemetry-item">
+          <span class="telemetry-label">N₂O₄ (Colorless)</span>
+          <span class="telemetry-value text-n2o4" id="valN2o4Count">3 particles</span>
+        </div>
+      </div>
+
+      <!-- Controls Slider Card -->
+      <div class="control-box">
+        <h3 class="card-subtitle">Adjust Chamber Constraints</h3>
+        
+        <div class="slider-group">
+          <div class="slider-labels">
+            <span>Chamber Volume (Pressure)</span>
+            <strong id="lblSliderVolume">5.0 L</strong>
+          </div>
+          <input type="range" id="sliderVolume" min="2.0" max="8.0" step="0.1" value="5.0" class="range-slider">
+          <div class="slider-ticks">
+            <span>2.0L (High P)</span>
+            <span>5.0L</span>
+            <span>8.0L (Low P)</span>
+          </div>
+        </div>
+
+        <div class="reaction-info-box">
+          <div class="equation-row">
+            <span class="eq-reactant text-n2o4">N₂O₄ (g)</span>
+            <span class="eq-arrow">⇌</span>
+            <span class="eq-product text-no2">2NO₂ (g)</span>
+          </div>
+          <p class="eq-explanation">
+            Reducing the volume increases pressure. According to Le Chatelier, the system shifts to the left (fewer moles, N₂O₄) to oppose the increase.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Bottom Panel: Live Line Chart (Canvas rendering) -->
+  <footer class="bottom-panel card">
+    <div class="chart-header">
+      <div>
+        <h3 class="section-title">Equilibrium Curve</h3>
+        <p class="section-description">Real-time concentration profile of reactants and products over time</p>
+      </div>
+      <div class="chart-legend">
+        <span class="legend-item"><span class="legend-dot color-n2o4"></span>N₂O₄ (Reactant)</span>
+        <span class="legend-item"><span class="legend-dot color-no2"></span>NO₂ (Product)</span>
+      </div>
+    </div>
+    <div class="chart-viewport">
+      <canvas id="chartCanvas" height="150"></canvas>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
